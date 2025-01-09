@@ -1,3 +1,29 @@
+#!/usr/bin/env python
+import pyautogui
+import time
+from pynput import keyboard
+import os
+import subprocess
+import threading
+
+# Global değişkenler
+stop_macro = False  # Makroyu durdurma kontrolü
+
+# Z tuşunu dinlemek için bir iş parçacığı oluştur
+def start_stop_listener():
+    global stop_macro
+
+    def on_press(key):
+        global stop_macro  # Burada global olarak tanımlıyoruz
+        if key == keyboard.KeyCode.from_char('z'):  # z tuşu
+            print("\nMakro durduruluyor...")
+            stop_macro = True
+            return False  # Dinleyiciyi durdur
+
+    # Dinleyiciyi başlat
+    with keyboard.Listener(on_press=on_press) as listener:
+        listener.join()
+
 # Hareketleri kaydetme
 def record():
     actions = []  # Tıklama hareketlerini kaydetmek için
